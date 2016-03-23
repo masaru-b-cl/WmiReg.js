@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<job>
+  <script src="../lib/WmiReg.js"></script>
+  <script language="JScript">
+    var wmiReg = new WmiReg();
+    
+    var defKey = WmiReg.DefKey.HKEY_LOCAL_MACHINE;
+    var subKeyName = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion";
+    var valueName = "SystemRoot"
+
+    var value = wmiReg.getStringValue(defKey, subKeyName, valueName);
+
+    WScript.Echo(value);
+  </script>
+</job>

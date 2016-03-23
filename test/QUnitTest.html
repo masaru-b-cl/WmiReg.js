@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>QUnit Example</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-1.22.0.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="//code.jquery.com/qunit/qunit-1.22.0.js"></script>
+    <script src="/lib/WmiReg.js"></script>
+    <script type="text/javascript">
+      /*
+        Please adjust IE security setting "Initialize and script ActiveX controls not marked as safe for scripting.". 
+          (see https://msdn.microsoft.com/ja-jp/library/7sw4ddf8.aspx)
+      */
+
+      /// <reference path="../lib/WmiReg-vsdoc.js"/>
+      /// <reference path="//code.jquery.com/qunit/qunit-1.22.0.js"/>
+
+      var wmiReg = new WmiReg();
+
+      QUnit.test("hasKey:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft", function (assert) {
+        assert.ok(wmiReg.hasKey(WmiReg.DefKey.HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft"));
+      });
+
+      QUnit.test("hasValue:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRoot",
+        function (assert) {
+          assert.ok(
+            wmiReg.hasValue(
+              WmiReg.DefKey.HKEY_LOCAL_MACHINE,
+              "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",
+              "SystemRoot")
+              );
+        });
+
+      QUnit.module("getStringValue");
+      QUnit.test("existsValue:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRoot",
+        function (assert) {
+          assert.equal(
+            wmiReg.getStringValue(
+              WmiReg.DefKey.HKEY_LOCAL_MACHINE,
+              "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",
+              "SystemRoot"),
+              "C:\\Windows");
+        });
+      QUnit.test("notExistsValue:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRoot",
+        function (assert) {
+          assert.throws(
+            wmiReg.getStringValue(
+              WmiReg.DefKey.HKEY_LOCAL_MACHINE,
+              "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",
+              "SystemRoot")
+              );
+        });
+
+    </script>
+</body>
+</html>
